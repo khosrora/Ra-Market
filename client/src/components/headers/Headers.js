@@ -43,7 +43,6 @@ const Headers = () => {
             </>
         )
     }
-    const toggleMenu = () => setMenu(!menu)
     const styleMenu = {
         left: menu ? 0 : "-100%"
     }

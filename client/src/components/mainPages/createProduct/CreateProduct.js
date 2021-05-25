@@ -1,6 +1,6 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { GlobalState } from './../../../GlobalState';
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import axios from 'axios';
 import Loading from './../../Helpers/Loading';
 
@@ -11,7 +11,8 @@ const initialState = {
     price: 0,
     description: "",
     content: "",
-    category: ""
+    category: "",
+    id: ""
 }
 
 const CreateProduct = () => {
@@ -27,6 +28,25 @@ const CreateProduct = () => {
 
 
     const history = useHistory();
+    const param = useParams();
+    const [products] = state.productsAPI.products;
+    const [onEdit, setOnEdit] = useState(false)
+
+    useEffect(() => {
+        if(param.id){
+            setOnEdit(true)
+            products.forEach(product => {
+                if(product._id === param.id) {
+                    setProduct(product)
+                    setImages(product.images)
+                }
+            })
+        }else{
+            setOnEdit(false)
+            setProduct(initialState)
+            setImages(false)
+        }
+    }, [param.id, products])
 
     const handleDestroy = async () => {
         try {
@@ -86,13 +106,17 @@ const CreateProduct = () => {
             if (!isAdmin) return alert("شما اجازه دسترسی ندارید")
             if (!images) return alert("عکس برای نمایش موجود نیست")
 
-            const res = await axios.post("/api/products", { ...product, images }, {
-                headers: { Authorization: token }
-            })
-            console.log(res);
-
-            setImages(false)
-            setProduct(initialState)
+            if (onEdit) {
+                await axios.put(`/api/products/${product._id}`, { ...product, images }, {
+                    headers: { Authorization: token }
+                })
+            } else {
+                await axios.post("/api/products", { ...product, images }, {
+                    headers: { Authorization: token }
+                })
+            }
+            // setImages(false)
+            // setProduct(initialState)
             setCallback(!callback)
             history.push("/")
         } catch (err) {
@@ -127,6 +151,7 @@ const CreateProduct = () => {
                     <input type="text" name="product_id" id="product_id" required
                         value={product.product_id}
                         onChange={handleChangeInput}
+                        disabled={product.id}
                     />
                 </div>
                 <div className="row">
@@ -173,7 +198,7 @@ const CreateProduct = () => {
                         }
                     </select>
                 </div>
-                <button type="submit">ساخت محصول</button>
+                <button type="submit">{onEdit? "ویرایش" : "ساخت"}</button>
             </form>
         </div>
     )

@@ -36,6 +36,7 @@ const Pages = () => {
             <Route path="/userpanel" exact component={User} />
 
             <Route path="/createproduct" exact component={isAdmin ? CreateProduct : NotFound} />
+            <Route path="/edit_product/:id" exact component={isAdmin ? CreateProduct : NotFound} />
 
             <Route path="/login" exact component={isLogged ? NotFound : Login} />
             <Route path="/register" exact component={isLogged ? NotFound : Register} />

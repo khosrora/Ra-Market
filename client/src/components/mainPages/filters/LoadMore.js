@@ -5,7 +5,7 @@ const LoadMore = () => {
 
     const state = useContext(GlobalState)
     const [page, setPage] = state.productsAPI.page;
-    const [result, setResult] = state.productsAPI.result;
+    const [result] = state.productsAPI.result;
 
 
     return (
