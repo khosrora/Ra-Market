@@ -1,0 +1,104 @@
+import { useContext, useState } from 'react'
+import Loading from '../../Helpers/Loading';
+import { GlobalState } from './../../../GlobalState';
+import axios from 'axios';
+
+
+import ProductItem from './ProductItem';
+import Filter from '../filters/Filter';
+import LoadMore from './../filters/LoadMore';
+
+
+
+
+const Products = () => {
+
+    const state = useContext(GlobalState)
+    const [products, setProducts] = state.productsAPI.products
+    const [isAdmin] = state.userAPI.isAdmin;
+    const [token] = state.token;
+    const [callback, setCallback] = state.productsAPI.callback
+    const [loading, setLoading] = useState(false)
+    const [isCheck, setIsCheck] = useState(false)
+
+
+    const handleCheck = (id) => {
+        products.forEach(product => {
+            if (product._id === id) product.checked = !product.checked
+        })
+        setProducts([...products])
+    }
+
+    const deleteProduct = async (id, public_id) => {
+        try {
+            setLoading(true)
+            const destroyImg = await axios.post("/api/destroy", { public_id }, {
+                headers: { Authorization: token }
+            })
+
+
+            const deleteProduct = await axios.delete(`/api/products/${id}`, {
+                headers: { Authorization: token }
+            })
+            await destroyImg
+            await deleteProduct
+            setCallback(!callback)
+            setLoading(false)
+        } catch (err) {
+            alert(err)
+        }
+    }
+
+    const checkAll = () => {
+        products.forEach(product => {
+            product.checked = !isCheck
+        });
+        setProducts([...products])
+        setIsCheck(!isCheck)
+    }
+
+    const deleteAll = () => {
+        products.forEach(product => {
+            if (product.checked) deleteProduct(product._id, product.images.public_id)
+        })
+    }
+
+    if (loading) return <div><Loading /></div>
+
+    return (
+        <>
+            <Filter />
+            {
+                isAdmin &&
+                <div className="delete-all">
+                    <span>انتخاب همه</span>
+                    <input type="checkbox"
+                        checked={isCheck}
+                        onChange={checkAll} />
+                    <button onClick={deleteAll}>حذف همه</button>
+                </div>
+
+            }
+            <div className="products">
+                {
+                    products.map(product => {
+                        return <ProductItem
+                            key={product._id}
+                            product={product}
+                            isAdmin={isAdmin}
+                            deleteProduct={deleteProduct}
+                            handleCheck={handleCheck}
+                        />
+                    })
+                }
+            </div>
+            <LoadMore />
+            {
+                products.length === 0 && <Loading />
+            }
+
+        </>
+    )
+}
+
+export default Products

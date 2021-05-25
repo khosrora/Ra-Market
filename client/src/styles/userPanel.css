@@ -1,0 +1,15 @@
+.user-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.user-panel h1 {
+    text-align: center;
+}
+
+.user-panel thead tr td {
+    background: rgb(212, 212, 212);
+}

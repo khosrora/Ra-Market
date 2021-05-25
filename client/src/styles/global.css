@@ -1,0 +1,157 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  max-width: 1230px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-shadow: 0 0 5px #eee;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+button {
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* header */
+
+@import url("./header.css");
+/* products */
+
+@import url("./products.css");
+@import url("./detailProduct.css");
+/* loading */
+
+@import url("./loading.css");
+/* login */
+
+@import url("./login.css");
+/* cart */
+
+@import url("./cart.css");
+/* history */
+
+@import url("./history.css");
+/* userpanel */
+
+@import url("./userPanel.css");
+/* category */
+
+@import url("./category.css");
+/* createproduct */
+
+@import url("./createProduct.css");
+/* filter */
+
+@import url("./filters.css");
+/* responsive  */
+
+@media (max-width: 820px) {
+  header ul {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    opacity: 0.98;
+    z-index: 99;
+    transition: 0.5s ease-in;
+  }
+  header .menu {
+    display: block;
+    cursor: pointer;
+  }
+  header ul li .menu {
+    position: absolute;
+    top: 20;
+    right: 20px;
+  }
+  header {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 720px) {
+  header ul {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    opacity: 0.98;
+    z-index: 99;
+    transition: 0.5s ease-in;
+  }
+  header .menu {
+    display: block;
+    cursor: pointer;
+  }
+  header ul li .menu {
+    position: absolute;
+    top: 20;
+    right: 20px;
+  }
+  header {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 570px) {
+  .filter_menu .row span {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .app {
+    padding: 0 10px;
+  }
+  .detail {
+    font-size: 100%;
+    padding: 0;
+  }
+  .filter_menu input {
+    margin: 0;
+  }
+  .filter_menu .sort {
+    flex: 1;
+  }
+  .filter_menu .sort select {
+    width: 100%;
+    min-width: 290px;
+    margin: 5px 0;
+  }
+  .login-page {
+    padding: 30px 15px;
+  }
+  .delete-all {
+    margin: 20px 0;
+  }
+  .create-product .upload {
+    margin: 20px 0;
+  }
+}
